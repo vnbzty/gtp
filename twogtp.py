@@ -3,7 +3,7 @@
 from subprocess import Popen, PIPE
 
 from gtp import parse_vertex, gtp_move, gtp_color
-from gtp import BLACK, WHITE, PASS
+from gtp import BLACK, WHITE, PASS, RESIGN
 
 
 class GTPSubProcess(object):
@@ -71,13 +71,15 @@ class GTPFacade(object):
         self.gtp_subprocess.close()
 
 
-GNUGO = ["gnugo", "--mode", "gtp"]
-GNUGO_LEVEL_ONE = ["gnugo", "--mode", "gtp", "--level", "1"]
-GNUGO_MONTE_CARLO = ["gnugo", "--mode", "gtp", "--monte-carlo"]
+GNUGO = ["/home/research/zhangtianyubj/gnugo-3.8/interface/gnugo", "--mode", "gtp"]
+GNUGO_LEVEL_ONE = ["/home/research/zhangtianyubj/gnugo-3.8/interface/gnugo", "--mode", "gtp", "--level", "1"]
+GNUGO_MONTE_CARLO = ["/home/research/zhangtianyubj/gnugo-3.8/interface/gnugo", "--mode", "gtp", "--monte-carlo"]
+KATAGO_B6C96 = ["/home/research/zhangtianyubj/KataGo/cpp/katago", "gtp", "-config", "/home/research/zhangtianyubj/KataGo/cpp/configs/gtp_example.cfg", "-model", "/home/research/zhangtianyubj/pygtp/gtp/models/g170-b6c96-s175395328-d26788732.bin.gz"]
+KATAGO_B6C96_ZTY = ["/home/research/zhangtianyubj/KataGo/cpp/katago", "gtp", "-config", "/home/research/zhangtianyubj/KataGo/cpp/configs/gtp_example.cfg", "-model", "/home/research/zhangtianyubj/KataGo/0111/models/vnb-s156901184-d2213323/model.bin.gz"]
 
 
 black = GTPFacade("black", GNUGO)
-white = GTPFacade("white", GNUGO_LEVEL_ONE)
+white = GTPFacade("white", KATAGO_B6C96)
 
 black.name()
 black.version()

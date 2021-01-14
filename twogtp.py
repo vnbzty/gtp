@@ -15,19 +15,20 @@ class GTPSubProcess(object):
 
     def send(self, data):
         print("sending {}: {}".format(self.label, data))
-        self.subprocess.stdin.write(data)
+        self.subprocess.stdin.write(data.encode())
+        self.subprocess.stdin.flush()
         result = ""
         while True:
             data = self.subprocess.stdout.readline()
             if not data.strip():
                 break
-            result += data
+            result += str(data, encoding='utf-8')
         print("got: {}".format(result))
         return result
 
     def close(self):
         print("quitting {} subprocess".format(self.label))
-        self.subprocess.communicate("quit\n")
+        self.subprocess.communicate(b"quit\n")
 
 
 class GTPFacade(object):
@@ -102,6 +103,8 @@ while True:
             break
         else:
             first_pass = True
+    elif vertex == RESIGN:
+        break
     else:
         first_pass = False
 
@@ -116,6 +119,8 @@ while True:
             break
         else:
             first_pass = True
+    elif vertex == RESIGN:
+        break
     else:
         first_pass = False
 
@@ -129,3 +134,4 @@ white.final_score()
 
 black.close()
 white.close()
+
